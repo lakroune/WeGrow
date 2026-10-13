@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc">
+
+    <!-- Active les fonctionnalités Spring MVC -->
+    <mvc:annotation-driven />
+
+    <bean id="departementRepository" class="ma.youcode.repository.impl.DepartementRepositoryImpl" />
+    <bean id="employeRepository" class="ma.youcode.repository.impl.EmployeServiceImpl" />
+
+
+    <!--  -->
+    <bean id="departementService" class="ma.youcode.service.impl.DepartementServiceImpl">
+        <constructor-arg ref="departementRepository" />
+    </bean>
+    <!--  -->
+
+    <bean id="employeService" class="ma.youcode.service.impl.EmployeServiceImpl">
+        <constructor-arg ref="employeRepository" />
+        <constructor-arg ref="departementRepository" />
+    </bean>
+
+
+</beans>

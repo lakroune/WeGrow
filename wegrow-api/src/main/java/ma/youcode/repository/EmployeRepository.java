@@ -1,5 +1,5 @@
 package ma.youcode.repository;
 
-public class EmployeRepository {
+public interface EmployeRepository {
 
 }
