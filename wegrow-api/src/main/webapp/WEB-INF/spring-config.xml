@@ -9,16 +9,24 @@
     <bean id="departementRepository" class="ma.youcode.repository.impl.DepartementRepositoryImpl" />
     <bean id="employeRepository" class="ma.youcode.repository.impl.EmployeServiceImpl" />
 
+    <!-- inject in service  -->
 
-    <!--  -->
     <bean id="departementService" class="ma.youcode.service.impl.DepartementServiceImpl">
         <constructor-arg ref="departementRepository" />
     </bean>
-    <!--  -->
+    <!-- inject  -->
 
     <bean id="employeService" class="ma.youcode.service.impl.EmployeServiceImpl">
         <constructor-arg ref="employeRepository" />
         <constructor-arg ref="departementRepository" />
+    </bean>
+
+    <bean id="departementController" class="ma.youcode.controller.DepartementController">
+        <constructor-arg ref="departementService" />
+    </bean>
+
+    <bean id="employeController" class="ma.youcode.controller.EmployeController">
+        <constructor-arg ref="employeService" />
     </bean>
 
 
