@@ -13,8 +13,6 @@ public class DepartementController {
         this.departementService = departementService;
     }
 
-  
-
     public List<Departement> getAllDepartements() {
         return departementService.getAllDepartements();
     }
@@ -26,8 +24,6 @@ public class DepartementController {
     public void saveDepartement(Departement departement) {
         departementService.saveDepartement(departement);
     }
-
-  
 
     public void updateDepartement(Long id, Departement departement) {
         departement.setId(id);

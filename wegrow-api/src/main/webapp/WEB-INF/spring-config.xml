@@ -4,7 +4,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:jpa="http://www.springframework.org/schema/data/jpa"
->
+    xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+                        http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <!-- Active les fonctionnalités Spring MVC -->
     <mvc:annotation-driven />
 
@@ -62,6 +64,31 @@
 
     <bean id="employeController" class="ma.youcode.controller.EmployeController">
         <constructor-arg ref="employeService" />
+    </bean>
+
+
+    <!--  -->
+    <!-- activer treansformer le object dur frm json -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean
+                    class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- maping  -->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/api/departements">departementController</prop>
+                <prop key="/api/departements/*">departementController</prop>
+                <prop key="/api/employes">employeController</prop>
+                <prop key="/api/employes/*">employeController</prop>
+
+            </props>
+        </property>
     </bean>
 
 
