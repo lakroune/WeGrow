@@ -1,9 +1,31 @@
 package ma.youcode.model;
 
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "departements")
 public class Departement {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
     private String nom;
+
+    @Column(length = 500)
     private String description;
+
+    @OneToMany(mappedBy = "departement")
+    private List<Employe> employes;
 
     public Departement() {
     }
@@ -37,4 +59,13 @@ public class Departement {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public List<Employe> getEmployes() {
+        return employes;
+    }
+
+    public void setEmployes(List<Employe> employes) {
+        this.employes = employes;
+    }
+
 }
