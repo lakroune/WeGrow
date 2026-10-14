@@ -2,26 +2,35 @@ package ma.youcode.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import ma.youcode.model.Employe;
 import ma.youcode.service.EmployeService;
 
-@RestController
-@RequestMapping("/api/employes")
 public class EmployeController {
+
     private final EmployeService employeService;
 
     public EmployeController(EmployeService employeService) {
         this.employeService = employeService;
     }
 
-    public List<Employe> listEmployes() {
+    public List<Employe> getAllEmployes() {
         return employeService.getAllEmployes();
     }
 
-    public void createEmploye(Employe employe) {
+    public Employe getEmployeById(Long id) {
+        return employeService.getEmployeById(id);
+    }
+
+    public void saveEmploye(Employe employe) {
         employeService.saveEmploye(employe);
+    }
+
+    public void updateEmploye(Long id, Employe employe) {
+        employe.setId(id);
+        employeService.saveEmploye(employe);
+    }
+
+    public void deleteEmploye(Long id) {
+        employeService.deleteEmploye(id);
     }
 }
