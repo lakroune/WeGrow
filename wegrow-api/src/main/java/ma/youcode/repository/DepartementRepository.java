@@ -1,13 +1,10 @@
 package ma.youcode.repository;
 
-import java.util.List;
 
 import ma.youcode.model.Departement;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DepartementRepository {
-    List<Departement> findAll();
+public interface DepartementRepository extends JpaRepository<Departement, Long> {
+    
 
-    Departement findById(Long id);
-
-    void save(Departement departement);
 }

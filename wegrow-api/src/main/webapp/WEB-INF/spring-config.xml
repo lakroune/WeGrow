@@ -5,7 +5,9 @@
 
     <!-- Active les fonctionnalités Spring MVC -->
     <mvc:annotation-driven />
-    <!-- confif=gue driver manager  -->
+
+
+    <!-- Config Driver Manager (DataSource) -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://localhost:5432/wegrow_db" />
@@ -13,9 +15,19 @@
         <property name="password" value="123456" />
     </bean>
 
-    <!-- templete -->
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <constructor-arg ref="dataSource" />
+
+    <!-- Config JPA / Hibernate -->
+    <bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="ma.youcode.model" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="true" />
+                <property name="generateDdl" value="true" />
+                <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
+            </bean>
+        </property>
     </bean>
 
     <!-- injection template dans dao -->
