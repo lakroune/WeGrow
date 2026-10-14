@@ -5,7 +5,7 @@
 
     <!-- Active les fonctionnalités Spring MVC -->
     <mvc:annotation-driven />
-
+    <!-- confif=gue driver manager  -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://localhost:5432/wegrow_db" />
@@ -13,9 +13,20 @@
         <property name="password" value="123456" />
     </bean>
 
+    <!-- templete -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource" />
+    </bean>
 
-    <bean id="departementRepository" class="ma.youcode.repository.impl.DepartementRepositoryImpl" />
-    <bean id="employeRepository" class="ma.youcode.repository.impl.EmployeServiceImpl" />
+    <!-- injection template dans dao -->
+
+
+    <bean id="departementRepository" class="ma.youcode.repository.impl.DepartementRepositoryImpl">
+        <constructor-arg ref="jdbcTemplate" />
+    </bean>
+    <bean id="employeRepository" class="ma.youcode.repository.impl.EmployeServiceImpl">
+        <constructor-arg ref="jdbcTemplate" />
+    </bean>
 
     <!-- inject in service  -->
 
