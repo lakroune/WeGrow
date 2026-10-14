@@ -1,0 +1,30 @@
+# Java / Maven
+/target/
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local environment / secrets
+.env
+.env.*
+*.local
+
+# Maven wrapper (if used)
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties

@@ -6,6 +6,14 @@
     <!-- Active les fonctionnalités Spring MVC -->
     <mvc:annotation-driven />
 
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/wegrow_db" />
+        <property name="username" value="postgres" />
+        <property name="password" value="123456" />
+    </bean>
+
+
     <bean id="departementRepository" class="ma.youcode.repository.impl.DepartementRepositoryImpl" />
     <bean id="employeRepository" class="ma.youcode.repository.impl.EmployeServiceImpl" />
 
