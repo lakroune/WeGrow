@@ -2,27 +2,27 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
-                        http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
-    <!-- Active les fonctionnalités Spring MVC -->
-    <mvc:annotation-driven />
+                        http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+                        http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+
+    <!-- <context:annotation-config/> -->
 
     <!-- Config Driver Manager (DataSource) -->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/wegrow_db" />
+        <property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/wegrow_db" />
         <property name="username" value="postgres" />
         <property name="password" value="123456" />
     </bean>
 
-
     <!-- Config JPA / Hibernate -->
     <bean id="entityManagerFactory"
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+
         <property name="dataSource" ref="dataSource" />
         <property name="packagesToScan" value="ma.youcode.model" />
         <property name="jpaVendorAdapter">
@@ -32,6 +32,7 @@
                 <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
             </bean>
         </property>
+
     </bean>
 
 
@@ -46,14 +47,13 @@
 
 
     <!-- Services  -->
-
-    <bean id="departementService" class="ma.youcode.service.impl.DepartementServiceImpl">
-        <constructor-arg ref="departementRepository" />
+    <bean id="employeService" class="ma.youcode.service.impl.EmployeServiceImpl">
+        <property name="employeRepository" ref="employeRepository" />
     </bean>
 
-    <bean id="employeService" class="ma.youcode.service.impl.EmployeServiceImpl">
-        <constructor-arg ref="employeRepository" />
-        <constructor-arg ref="departementRepository" />
+
+    <bean id="departementService" class="ma.youcode.service.impl.DepartementServiceImpl">
+        <property name="departementRepository" ref="departementRepository" />
     </bean>
 
 
@@ -66,30 +66,18 @@
         <constructor-arg ref="employeService" />
     </bean>
 
-
-    <!--  -->
-    <!-- activer treansformer le object dur frm json -->
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="messageConverters">
-            <list>
-                <bean
-                    class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
-            </list>
-        </property>
-    </bean>
-
-    <!-- maping  -->
+    <!-- Mapping XML sans annotations -->
     <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
                 <prop key="/api/departements">departementController</prop>
-                <prop key="/api/departements/*">departementController</prop>
                 <prop key="/api/employes">employeController</prop>
-                <prop key="/api/employes/*">employeController</prop>
-
             </props>
         </property>
     </bean>
+
+
+    <context:component-scan base-package="ma.youcode.service" />
 
 
 </beans>

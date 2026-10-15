@@ -3,18 +3,19 @@ package ma.youcode.service.impl;
 import java.util.List;
 
 import ma.youcode.model.Employe;
-import ma.youcode.repository.DepartementRepository;
 import ma.youcode.repository.EmployeRepository;
 import ma.youcode.service.EmployeService;
 
 public class EmployeServiceImpl implements EmployeService {
 
-    private final EmployeRepository employeRepository;
-    private final DepartementRepository departementRepository;
+    private EmployeRepository employeRepository;
 
-    public EmployeServiceImpl(EmployeRepository employeRepository, DepartementRepository departementRepository) {
+    public void setEmployeRepository(EmployeRepository employeRepository){
         this.employeRepository = employeRepository;
-        this.departementRepository = departementRepository;
+    }
+
+    public EmployeServiceImpl() {
+      
     }
 
     @Override

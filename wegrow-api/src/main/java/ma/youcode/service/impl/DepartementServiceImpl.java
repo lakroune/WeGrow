@@ -9,9 +9,9 @@ import ma.youcode.service.DepartementService;
 
 public class DepartementServiceImpl implements DepartementService {
 
-    private final DepartementRepository departementRepository;
+    private DepartementRepository departementRepository;
 
-    public DepartementServiceImpl(DepartementRepository departementRepository) {
+    public void setdepartementRepository(DepartementRepository departementRepository) {
         this.departementRepository = departementRepository;
     }
 
