@@ -71,7 +71,8 @@
         <property name="mappings">
             <props>
                 <prop key="/api/departements">departementController</prop>
-                <prop key="/api/employes">employeController</prop>
+                <prop key="/api/departements/*">departementController</prop>
+                <prop key="/api/departements/*/employes">employeController</prop>
             </props>
         </property>
     </bean>
