@@ -1,50 +1,64 @@
 package ma.youcode.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.web.HttpRequestHandler;
+
+import ma.youcode.model.Departement;
 import ma.youcode.model.Employe;
 import ma.youcode.service.EmployeService;
 
-@RestController
-@RequestMapping("/api")
-public class EmployeController {
+public class EmployeController implements HttpRequestHandler {
 
     private final EmployeService employeService;
+    private final ObjectMapper mapper;
 
     public EmployeController(EmployeService employeService) {
         this.employeService = employeService;
+        this.mapper = new ObjectMapper();
     }
 
-    @GetMapping("/employes")
-    public List<Employe> getAllEmployes() {
-        return employeService.getAllEmployes();
-    }
+    @Override
+    public void handleRequest(HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
 
-    @GetMapping("/employes/{id}")
-    public Employe getEmployeById(@PathVariable Long id) {
-        return employeService.getEmployeById(id);
-    }
+        String method = request.getMethod();
+        String path = request.getRequestURI()
+                .substring(request.getContextPath().length());
 
-    @PostMapping("/employes")
-    public void saveEmploye(@RequestBody Employe employe) {
-        employeService.saveEmploye(employe);
-    }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        // show
+        if ("GET".equals(method)
+                && "/api/departements/\\d+/employes".equals(path)) {
 
-    @PutMapping("/employes/{id}")
-    public void updateEmploye(@PathVariable Long id, @RequestBody Employe employe) {
-        employe.setId(id);
-        employeService.saveEmploye(employe);
-    }
+            response.setStatus(HttpServletResponse.SC_OK);
 
-    public void deleteEmploye(Long id) {
-        employeService.deleteEmploye(id);
+            return;
+        }
+
+        // store
+        if ("POST".equals(method) && "/api/departements/\\d+/employes".equals(path)) {
+
+            Employe employe = mapper.readValue(request.getInputStream(), Employe.class);
+
+            response.setStatus(HttpServletResponse.SC_CREATED);
+
+            return;
+        }
+
     }
 }

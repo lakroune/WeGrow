@@ -2,6 +2,7 @@ package ma.youcode.service.impl;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import ma.youcode.model.Departement;
 import ma.youcode.repository.DepartementRepository;
@@ -21,9 +22,9 @@ public class DepartementServiceImpl implements DepartementService {
     }
 
     @Override
-    public Departement getDepartementById(Long id) {
+    public Optional<Departement> getDepartementById(Long id) {
         Long validId = Objects.requireNonNull(id, "id");
-        return departementRepository.findById(validId).orElse(null);
+        return departementRepository.findById(validId);
     }
 
     @Override

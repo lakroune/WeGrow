@@ -2,6 +2,7 @@ package ma.youcode.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.HttpRequestHandler;
 
@@ -32,32 +33,46 @@ public class DepartementController implements HttpRequestHandler {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
+        // index
         if ("GET".equals(method)
                 && "/api/departements".equals(path)) {
 
             List<Departement> departements = departementService.getAllDepartements();
 
+            response.setStatus(HttpServletResponse.SC_OK);
             mapper.writeValue(response.getWriter(), departements);
-            response.setStatus(200);
+            return;
+        }
+        // show
+        if ("GET".equals(method)
+                && path.matches("/api/departements/\\d+")) {
+            String[] partsPath = path.split("/");
+            Long idDepartemant = Long.parseLong(partsPath[3]);
+
+            Optional<Departement> departement = departementService.getDepartementById(idDepartemant);
+            if (departement.isPresent()) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                mapper.writeValue(response.getWriter(), departement);
+                return;
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                mapper.writeValue(response.getWriter(), departement);
+                return;
+            }
+
+        }
+
+        // store
+        if ("POST".equals(method) && "/api/departements".equals(path)) {
+
+            Departement departement = mapper.readValue(request.getInputStream(), Departement.class);
+
+            departementService.saveDepartement(departement);
+
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            mapper.writeValue(response.getWriter(), departement);
             return;
         }
 
-        if ("POST".equals(method)
-                && "/api/departements".equals(path)) {
-
-            response.getWriter().write("ok POST");
-            response.setStatus(201);
-            return;
-        }
-        if ("PUT".equals(method)
-                && "/api/departements".equals(path)) {
-
-            response.getWriter().write("ok PUT");
-            response.setStatus(200);
-            return;
-        }
-
-        response.sendError(404, "Route not found");
     }
 }
