@@ -39,6 +39,9 @@ public class DepartementController implements HttpRequestHandler {
 
             List<Departement> departements = departementService.getAllDepartements();
 
+            System.out.println("Nombre de departements : "
+                    + departements.size());
+
             response.setStatus(HttpServletResponse.SC_OK);
             mapper.writeValue(response.getWriter(), departements);
             return;

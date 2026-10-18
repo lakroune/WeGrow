@@ -2,6 +2,8 @@ package ma.youcode.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ public class Departement {
     @Column(length = 500)
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "departement")
     private List<Employe> employes;
 

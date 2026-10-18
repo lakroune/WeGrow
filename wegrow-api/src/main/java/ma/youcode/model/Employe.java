@@ -44,17 +44,7 @@ public class Employe {
     public Employe() {
     }
 
-    /**
-     * constructor for creating an Employe object with all attributes.
-     * 
-     * @param id
-     * @param matricule
-     * @param nom
-     * @param prenom
-     * @param poste
-     * @param contrat
-     * @param departement
-     */
+    
     public Employe(Long id, String matricule, String nom, String prenom, Poste poste,
             Contrat contrat, Departement departement) {
         this.id = id;
