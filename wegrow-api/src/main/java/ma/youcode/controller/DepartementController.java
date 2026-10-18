@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ma.youcode.dto.DepartementDTO;
+import ma.youcode.dto.DepartementNombreEmployesDTO;
 import ma.youcode.model.Departement;
 import ma.youcode.service.DepartementService;
 
@@ -39,14 +40,10 @@ public class DepartementController implements HttpRequestHandler {
         if ("GET".equals(method)
                 && "/api/departements".equals(path)) {
 
-            List<Departement> departements = departementService.getAllDepartements();
-
-            List<DepartementDTO> result = departements.stream()
-                    .map(DepartementDTO::new)
-                    .toList();
+            List<DepartementNombreEmployesDTO> departements = departementService.getAllDepartementsWithEmployeCount();
 
             response.setStatus(HttpServletResponse.SC_OK);
-            mapper.writeValue(response.getWriter(), result);
+            mapper.writeValue(response.getWriter(), departements);
             return;
         }
 

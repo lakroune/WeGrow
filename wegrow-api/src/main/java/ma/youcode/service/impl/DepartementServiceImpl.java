@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import ma.youcode.dto.DepartementNombreEmployesDTO;
 import ma.youcode.model.Departement;
 import ma.youcode.repository.DepartementRepository;
 import ma.youcode.service.DepartementService;
@@ -16,11 +17,15 @@ public class DepartementServiceImpl implements DepartementService {
         this.departementRepository = departementRepository;
     }
 
-   
-
     @Override
     public List<Departement> getAllDepartements() {
         return departementRepository.findAll();
+    }
+
+    @Override
+    public List<DepartementNombreEmployesDTO> getAllDepartementsWithEmployeCount() {
+
+        return departementRepository.findAllWithEmployeCount();
     }
 
     @Override
