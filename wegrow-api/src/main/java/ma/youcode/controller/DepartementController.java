@@ -2,6 +2,7 @@ package ma.youcode.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.web.HttpRequestHandler;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ma.youcode.dto.DepartementDTO;
 import ma.youcode.model.Departement;
 import ma.youcode.service.DepartementService;
 
@@ -34,35 +36,40 @@ public class DepartementController implements HttpRequestHandler {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         // index
+
         if ("GET".equals(method)
                 && "/api/departements".equals(path)) {
 
             List<Departement> departements = departementService.getAllDepartements();
 
-            System.out.println("Nombre de departements : "
-                    + departements.size());
+            List<DepartementDTO> result = departements.stream()
+                    .map(DepartementDTO::new)
+                    .toList();
 
             response.setStatus(HttpServletResponse.SC_OK);
-            mapper.writeValue(response.getWriter(), departements);
+            mapper.writeValue(response.getWriter(), result);
             return;
         }
+
         // show
         if ("GET".equals(method)
                 && path.matches("/api/departements/\\d+")) {
-            String[] partsPath = path.split("/");
-            Long idDepartemant = Long.parseLong(partsPath[3]);
 
-            Optional<Departement> departement = departementService.getDepartementById(idDepartemant);
+            String[] parts = path.split("/");
+            Long id = Long.parseLong(parts[3]);
+
+            Optional<Departement> departement = departementService.getDepartementById(id);
+
             if (departement.isPresent()) {
+                DepartementDTO dto = new DepartementDTO(departement.get());
                 response.setStatus(HttpServletResponse.SC_OK);
-                mapper.writeValue(response.getWriter(), departement);
-                return;
+                mapper.writeValue(response.getWriter(), dto);
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                mapper.writeValue(response.getWriter(), departement);
-                return;
+                mapper.writeValue(response.getWriter(),
+                        Map.of("message", "Département introuvable"));
             }
-
+            return;
         }
 
         // store

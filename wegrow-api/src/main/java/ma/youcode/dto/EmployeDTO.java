@@ -1,4 +1,3 @@
-
 package ma.youcode.dto;
 
 import ma.youcode.model.Employe;
@@ -12,14 +11,13 @@ public class EmployeDTO {
     private String poste;
     private String contrat;
 
-    public EmployeDTO(Employe e) {
-        this.id = e.getId();
-        this.nom = e.getNom();
-        this.prenom = e.getPrenom();
-        this.matricule = e.getMatricule();
-        this.poste = e.getPoste().name();
-        this.contrat = e.getContrat().name();
-
+    public EmployeDTO(Employe employe) {
+        this.id = employe.getId();
+        this.nom = employe.getNom();
+        this.prenom = employe.getPrenom();
+        this.matricule = employe.getMatricule();
+        this.poste = employe.getPoste().name();
+        this.contrat = employe.getContrat().name();
     }
 
     public Long getId() {

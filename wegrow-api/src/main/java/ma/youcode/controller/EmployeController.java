@@ -2,13 +2,14 @@ package ma.youcode.controller;
 
 import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.HttpRequestHandler;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import org.springframework.web.HttpRequestHandler;
-
+import ma.youcode.dto.EmployeDTO;
 import ma.youcode.model.Employe;
 import ma.youcode.service.EmployeService;
 
@@ -32,7 +33,9 @@ public class EmployeController implements HttpRequestHandler {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
         // show
+
         if ("GET".equals(method)
                 && path.matches("/api/departements/\\d+/employes")) {
 
@@ -41,12 +44,16 @@ public class EmployeController implements HttpRequestHandler {
 
             List<Employe> employes = employeService.getEmployeByIdDepartemant(idDepartement);
 
+            List<EmployeDTO> result = employes.stream()
+                    .map(EmployeDTO::new)
+                    .toList();
+
             response.setStatus(HttpServletResponse.SC_OK);
-            mapper.writeValue(response.getWriter(), employes);
+            mapper.writeValue(response.getWriter(), result);
             return;
         }
 
-        // store
+        
         // store
         if ("POST".equals(method)
                 && path.matches("/api/departements/\\d+/employes")) {
