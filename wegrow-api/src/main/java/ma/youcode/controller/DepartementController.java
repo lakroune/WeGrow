@@ -79,5 +79,26 @@ public class DepartementController implements HttpRequestHandler {
             return;
         }
 
+        if ("DELETE".equals(method)
+                && path.matches("/api/departements/\\d+")) {
+
+            String[] partsPath = path.split("/");
+            Long id = Long.parseLong(partsPath[3]);
+
+            if (!departementService.getDepartementById(id).isPresent()) {
+                response.setStatus(404);
+                return;
+            }
+
+            try {
+                departementService.deleteDepartement(id);
+                response.setStatus(204);
+            } catch (Exception e) {
+                response.setStatus(409);
+            }
+
+            return;
+        }
+
     }
 }

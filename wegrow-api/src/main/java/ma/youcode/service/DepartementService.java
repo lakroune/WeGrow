@@ -9,7 +9,7 @@ import ma.youcode.model.Departement;
 public interface DepartementService {
     List<Departement> getAllDepartements();
 
-   List<DepartementNombreEmployesDTO> getAllDepartementsWithEmployeCount();
+    List<DepartementNombreEmployesDTO> getAllDepartementsWithEmployeCount();
 
     Optional<Departement> getDepartementById(Long id);
 
