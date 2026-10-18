@@ -49,6 +49,7 @@
     <!-- Services  -->
     <bean id="employeService" class="ma.youcode.service.impl.EmployeServiceImpl">
         <property name="employeRepository" ref="employeRepository" />
+        <property name="departementRepository" ref="departementRepository" />
     </bean>
 
 
@@ -64,6 +65,7 @@
 
     <bean id="employeController" class="ma.youcode.controller.EmployeController">
         <constructor-arg ref="employeService" />
+        <constructor-arg ref="departementService" />
     </bean>
 
     <!-- Mapping XML sans annotations -->

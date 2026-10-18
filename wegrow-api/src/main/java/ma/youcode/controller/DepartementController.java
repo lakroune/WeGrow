@@ -2,7 +2,6 @@ package ma.youcode.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.web.HttpRequestHandler;
@@ -65,9 +64,8 @@ public class DepartementController implements HttpRequestHandler {
                 response.setStatus(HttpServletResponse.SC_OK);
                 mapper.writeValue(response.getWriter(), dto);
             } else {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                mapper.writeValue(response.getWriter(),
-                        Map.of("message", "Département introuvable"));
+                response.setStatus(404);
+
             }
             return;
         }
