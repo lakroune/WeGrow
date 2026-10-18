@@ -90,7 +90,7 @@ password: 123456
 ### Prerequisites
 - JDK 17+
 - Apache Maven 3.8+
-- A Servlet 6.0 container (Apache Tomcat 10.1+, Jetty 11+, …)
+- A Servlet 6.0 container (Apache Tomcat 10.1+,   …)
 
 ### Build the WAR
 
@@ -122,6 +122,43 @@ Main configuration file: `wegrow-api/src/main/webapp/WEB-INF/spring-config.xml`
 - `entityManagerFactory` — JPA/Hibernate (packagesToScan `ma.youcode.model`, `showSql=true`, `generateDdl=true`)
 - `transactionManager` — JpaTransactionManager
 - Controllers and URL mappings (`SimpleUrlHandlerMapping`)
+
+## 🧪 Testing the API
+
+Once deployed, test the endpoints with `curl`:
+
+```bash
+# List all departments
+curl -i http://localhost:8080/wegrow-api-1.0.0/api/departements
+
+# Get a department by ID
+curl -i http://localhost:8080/wegrow-api-1.0.0/api/departements/1
+
+# Create a department
+curl -i -X POST http://localhost:8080/wegrow-api-1.0.0/api/departements \
+  -H "Content-Type: application/json" \
+  -d '{"nom":"Informatique","description":"Département informatique"}'
+
+# List employees of a department
+curl -i http://localhost:8080/wegrow-api-1.0.0/api/departements/1/employes
+
+# Create an employee in a department
+curl -i -X POST http://localhost:8080/wegrow-api-1.0.0/api/departements/1/employes \
+  -H "Content-Type: application/json" \
+  -d '{"matricule":"EMP-001","nom":"Doe","prenom":"John","poste":"DEVELOPPEUR","contrat":"CDI"}'
+```
+
+Adjust the host, port, and context path to match your servlet container setup.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/ma-fonctionnalite`)
+3. Commit your changes (`git commit -m "Add: ma fonctionnalite"`)
+4. Push to the branch (`git push origin feature/ma-fonctionnalite`)
+5. Open a Pull Request
+
+Please follow the existing code style and conventions.
 
 ## 📜 License
 
